@@ -36,7 +36,7 @@ const ModalComponent = ({ openModal, setOpenModal, deleteNote }: IModalComponent
           </Typography>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: '10px' }}>
             <Button onClick={handleClose} color="primary" variant="contained">
-              Cancle
+              Cancel
             </Button>
             <Button onClick={handleCloseDel} color="error" variant="contained">
               Delete
