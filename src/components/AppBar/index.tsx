@@ -17,6 +17,7 @@ import {
 } from '../../api/api';
 import SearchBox from '../SearchBox';
 import DrawerWidthContext from '../../context';
+import ModalComponent from '../Modal';
 import { IAppBarComponentProps, NotesStatus } from '../../types';
 import { catchAsync } from '../../utils';
 import { AppBarStyled, ToolBarStyled, ButtonsWrapper } from './AppBarStyled';
@@ -35,6 +36,7 @@ const AppBarComponent = ({
   edit,
   setEdit,
 }: IAppBarComponentProps) => {
+  const [openModal, setOpenModal] = React.useState(false);
   const [search, setSearch] = React.useState('');
   const debouncedText: string = useDebounce<string>(text, 500);
   const debouncedSearch: string = useDebounce<string>(search, 500);
@@ -109,47 +111,54 @@ const AppBarComponent = ({
   }, [currentNoteId]);
 
   return (
-    <AppBarStyled position="fixed" open={open} drawerwidth={drawerWidth}>
-      <ToolBarStyled>
-        <ButtonsWrapper>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: 'none' }) }}>
-            <MenuIcon />
-          </IconButton>
-          <Button
-            color="secondary"
-            disabled={notesStatus === NotesStatus.LOADING}
-            onClick={() => addNote(setNotesStatus)}
-            variant="contained"
-            startIcon={<AddIcon />}>
-            Add
-          </Button>
-          <Button
-            onClick={() => setEdit(true)}
-            variant="contained"
-            disabled={isButtonDisable}
-            color="success"
-            startIcon={<EditIcon />}>
-            Edit
-          </Button>
-          <Button
-            color="error"
-            onClick={() => {
-              deleteNote(setNotesStatus);
-            }}
-            variant="contained"
-            disabled={isButtonDisable}
-            startIcon={<DeleteIcon />}>
-            Delete
-          </Button>
-        </ButtonsWrapper>
-        <SearchBox handleDrawerOpen={handleDrawerOpen} search={search} setSearch={setSearch} />
-      </ToolBarStyled>
-    </AppBarStyled>
+    <>
+      <AppBarStyled position="fixed" open={open} drawerwidth={drawerWidth}>
+        <ToolBarStyled>
+          <ButtonsWrapper>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{ mr: 2, ...(open && { display: 'none' }) }}>
+              <MenuIcon />
+            </IconButton>
+            <Button
+              color="secondary"
+              disabled={notesStatus === NotesStatus.LOADING}
+              onClick={() => addNote(setNotesStatus)}
+              variant="contained"
+              startIcon={<AddIcon />}>
+              Add
+            </Button>
+            <Button
+              onClick={() => setEdit(true)}
+              variant="contained"
+              disabled={isButtonDisable}
+              color="success"
+              startIcon={<EditIcon />}>
+              Edit
+            </Button>
+            <Button
+              color="error"
+              onClick={() => {
+                setOpenModal(true);
+              }}
+              variant="contained"
+              disabled={isButtonDisable}
+              startIcon={<DeleteIcon />}>
+              Delete
+            </Button>
+          </ButtonsWrapper>
+          <SearchBox handleDrawerOpen={handleDrawerOpen} search={search} setSearch={setSearch} />
+        </ToolBarStyled>
+      </AppBarStyled>
+      <ModalComponent
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        deleteNote={() => deleteNote(setNotesStatus)}
+      />
+    </>
   );
 };
 

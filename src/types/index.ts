@@ -80,3 +80,9 @@ export interface ISearchBoxProps extends Pick<IProps, 'handleDrawerOpen'> {
   search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
 }
+
+export interface IModalComponentProps {
+  openModal: boolean;
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  deleteNote: () => void;
+}

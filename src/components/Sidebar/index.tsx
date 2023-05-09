@@ -6,6 +6,7 @@ import Skeleton from '@mui/material/Skeleton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import IconButton from '@mui/material/IconButton';
 import { ListItem, ListItemText } from '@mui/material';
+import { nanoid } from 'nanoid';
 import DrawerHeader from '../DrawerHeader';
 import ListItemComponent from '../ListItemComponent';
 import DrawerWidthContext from '../../context';
@@ -41,7 +42,7 @@ const Sidebar = ({
 
     if (notesStatus === NotesStatus.LOADING) {
       return [...new Array(5)].map(() => (
-        <ListItem>
+        <ListItem key={nanoid()}>
           <Skeleton variant="rectangular" width={210} height={60} />
         </ListItem>
       ));
